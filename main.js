@@ -44,11 +44,20 @@ function getRedditComments(id){
 	    function(data) {
 	       for(var i = 0; i < data[1].data.children.length; i++ ){
 	       	comments.push(data[1].data.children[i]);
-	       	$("#comments").append("<div class='comment'>" + data[1].data.children[i].data.body + "</div>");
+	       	$("#comments")
+	       		.append("<div class='comment'>" +
+	       					"<div class='noncollapsed'>" + 
+	       						"<a href='#' class='expand' onclick='return hidecomment(this)'>[--]</a>" + data[1].data.children[i].data.body + 
+       						"</div> " +
+	       					"<div class='collapsed' style='display:none'>" + 
+	       						"<a href='#' class='expand' onclick='return showcomment(this)'>[+]</a>" +
+	       					"</div>" +
+       					"</div>");
 	       }
 	    }
 	);
 }
+
 
 
 
@@ -61,3 +70,28 @@ $(document).ready(function(){
 	// getRedditArticleIds(url);
 	// getRedditComments("21m4hj");
 });
+
+
+
+
+function hidecomment(elem) {
+	var anchorMinus = $(elem);
+	var noncollapsed = anchorMinus.parent();
+	var comment = noncollapsed.parent();
+	var collapsed = comment.find(".collapsed");
+	noncollapsed.hide();
+	collapsed.show();
+	return false;
+
+};
+
+
+function showcomment(elem) {
+	var anchorPlus = $(elem);
+	var collapsed = anchorPlus.parent();
+	var comment = collapsed.parent();
+	var noncollapsed = comment.find(".noncollapsed");
+	collapsed.hide();
+	noncollapsed.show();
+	return false;
+};
