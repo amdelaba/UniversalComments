@@ -1,0 +1,22 @@
+body {
+	background-image: url("crossword.png");
+}
+
+#url{
+	margin:10px 0 10px 0;
+}
+
+#comments .comment:nth-of-type(odd){
+	background-color:#63ADD0;
+}
+
+#comments .comment:nth-of-type(even){
+	background-color:#FFA640;
+	background-color:#FF8990;
+	background-color:#FF8900;
+}
+
+.comment {
+	margin: 10px 0 10px 0;
+	padding: 10px;
+}
