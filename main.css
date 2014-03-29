@@ -2,6 +2,11 @@ body {
 	background-image: url("crossword.png");
 }
 
+h1{
+	font-family:Track;
+	color:#FF3500;;
+}
+
 #url{
 	margin:10px 0 10px 0;
 }
@@ -19,4 +24,19 @@ body {
 .comment {
 	margin: 10px 0 10px 0;
 	padding: 10px;
+}
+
+@font-face {
+	font-family: Track;
+	src: url("Track.otf") format("opentype");
+}
+
+@font-face {
+	font-family: Fairview;
+	src: url("Fairview_Regular.otf") format("opentype");
+}
+
+@font-face {
+	font-family: Simplfica;
+	src: url("SIMPLIFICA Typeface.ttf") format("truetype");
 }
