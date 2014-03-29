@@ -43,13 +43,42 @@ function getRedditComments(id){
 	    {},
 	    function(data) {
 	       for(var i = 0; i < data[1].data.children.length; i++ ){
-	       	comments.push(data[1].data.children[i]);
-	       	$("#comments").append("<div class='comment'>" + data[1].data.children[i].data.body + "</div>");
+	       	var comment = data[1].data.children[i];
+	       	comments.push(comment);
+	       	
+	       	// var score = data[1].data.children[i].data.ups - data[1].data.children[i].data.downs;
+	       	// comment.data.author
+	       	// comment.data.link_id
+	       	// comment.data.created_utc
+
+			var commentHtml = 	'<div class="panel panel-default">' + 
+								  '<div class="panel-heading">' +
+								    '<h3 class="panel-title">' + 
+								    '<span class="badge pull-left" >' + (comment.data.ups - comment.data.downs) + '   </span>' + 
+								    '<a href="http://www.reddit.com/user/WoodStainedGlass" >' + comment.data.author + '</a>' +
+								    '|' + comment.data.id + 
+								    '>Permalink</a>' + 
+								    ' | ' + toDateTime(comment.data.created_utc).toLocaleDateString() + '</h3>' +'</div>' + 
+								  '<div class="panel-body">' +
+								    comment.data.body + 
+								  '</div>' + 
+								'</div>';
+								//MMA/comments/21h284/posting_shitty_things_you_made_is_how_cake_day/cgcyg2f
+								http://www.reddit.com/news/comments/t3_21m4hj
+			//"<div class='comment'>" + comment.data.body + "</div>"
+	       	$("#comments").append(commentHtml);
+	       	$("#url").val("TEEEST");
 	       }
 	    }
 	);
 }
 
+function toDateTime(secs)
+{
+	var t = new Date(1970,0,1);
+	t.setSeconds(secs);
+	return t;
+}
 
 
 $(document).ready(function(){	
@@ -58,6 +87,4 @@ $(document).ready(function(){
 		url = $("#url").val();
 		getRedditArticleIds(url);
 	})
-	// getRedditArticleIds(url);
-	// getRedditComments("21m4hj");
 });
