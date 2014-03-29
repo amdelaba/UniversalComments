@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "Universal Commenting System",
+  "description": "This extension allows you to access all the comments on the internet related to the url you are currently viewing.",
+  "version": "1.0",
+
+  "permissions": [
+    "https://code.jquery.com/jquery-1.9.1.min.js"
+  ],
+  "browser_action": {
+    "default_icon": "chrome_icon.png",
+    "default_popup": "index.html"
+  }
+}
