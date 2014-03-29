@@ -3,34 +3,59 @@
 	<head>
 		<title>Universal Comments</title>
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 		<style>
-			#articleContainer{
-				width:800px;
-				margin-left:auto;
-				margin-right:auto;
-				background-color:blue;
+			body {
+				background-image: url("crossword.png");
+			}
+			
+			#url{
+				margin:10px 0 10px 0;
 			}
 
-			#title{
-				font-size:16px;
-				color:red;
+			#comments .comment:nth-of-type(odd){
+				background-color:#63ADD0;
 			}
 
-			#comments{
-
+			#comments .comment:nth-of-type(even){
+				background-color:#FFA640;
+				background-color:#FF8990;
+				background-color:#FF8900;
 			}
 
 			.comment {
 				margin: 10px 0 10px 0;
-				background-color:green;
+				padding: 10px;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="articleContainer">
-			<div id="title"></div>
-			<div id="comments"></div>
+		<div class="container">
+			<div class="row">
+			  <div class="col-md-4"></div>
+			  <div class="col-md-4" style="text-align:center;">
+			  	<input id="url" type="text" class="form-control" placeholder="Enter URL" value="http://www.teslamotors.com/blog/tesla-adds-titanium-underbody-shield-and-aluminum-deflector-plates-model-s">
+				<button id="getComments" type="button" class="btn btn-primary btn-block">Get Comments</button>
+			  </div>
+			  <div class="col-md-4"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<div id="comments"></div>
+				</div>
+				<div class="col-md-2"></div>
+			</div>
 		</div>
 	</body>
 
@@ -39,20 +64,42 @@
 	var comments = [];
 	var articleIds = [];
 
-	function getArticleIds(url){
+	function getRedditArticleIds(url){
 		$.get(
 		    "http://www.reddit.com/submit.json?url=" + url,
 		    {},
 		    function(data) {
-		       for(var i = 0; i < data.data.children.length;i++){
-		           articleIds.push(data.data.children[i].data.id);
-		           getComments(data.data.children[i].data.id)
-		       }
+		    	//If length is undefined, there are multiple articles that match the url
+		    	if (data.length === undefined){
+		    		//Loop through all relevant reddit posts
+			       for(var i = 0; i < data.data.children.length;i++){
+			           var article = data.data.children[i].data;
+			           if (isGoodArticle(article)){
+			           	articleIds.push(article.id);
+			           	getRedditComments(article.id);
+			           }
+			       }
+		    	} else{
+		    		//only 1 article matching the url
+		    		var article = data[0].data.children[0].data
+		    		if (isGoodArticle(article)){
+		    			articleIds.push(article.id);
+		    			getRedditComments(article.id);
+		    		}
+		    	}
+		    	
 		    }
 		);
 	}
 
-	function getComments(id){
+	function isGoodArticle(article){
+		if (article.num_comments > 0 && article.score > 20){
+			return true;
+		}
+		return false;
+	}
+
+	function getRedditComments(id){
 		$.get(
 			"http://www.reddit.com/r/all/comments/" + id + ".json",
 		    {},
@@ -68,8 +115,13 @@
 	
 
 	$(document).ready(function(){	
-		getArticleIds(url);
-		// getComments("21m4hj");
+		$("#getComments").click(function(){
+			$("#comments").html("");
+			url = $("#url").val();
+			getRedditArticleIds(url);
+		})
+		// getRedditArticleIds(url);
+		// getRedditComments("21m4hj");
 	});
 	
 	</script>
