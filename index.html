@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Universal Comments</title>
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<style>
+			#articleContainer{
+				width:800px;
+				margin-left:auto;
+				margin-right:auto;
+				background-color:blue;
+			}
+
+			#title{
+				font-size:16px;
+				color:red;
+			}
+
+			#comments{
+
+			}
+
+			.comment {
+				margin: 10px 0 10px 0;
+				background-color:green;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="articleContainer">
+			<div id="title"></div>
+			<div id="comments"></div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+	var url = "http://www.teslamotors.com/blog/tesla-adds-titanium-underbody-shield-and-aluminum-deflector-plates-model-s"
+	var comments = [];
+	var articleIds = [];
+
+	function getArticleIds(url){
+		$.get(
+		    "http://www.reddit.com/submit.json?url=" + url,
+		    {},
+		    function(data) {
+		       for(var i = 0; i < data.data.children.length;i++){
+		           articleIds.push(data.data.children[i].data.id);
+		           getComments(data.data.children[i].data.id)
+		       }
+		    }
+		);
+	}
+
+	function getComments(id){
+		$.get(
+			"http://www.reddit.com/r/all/comments/" + id + ".json",
+		    {},
+		    function(data) {
+		       for(var i = 0; i < data[1].data.children.length; i++ ){
+		       	comments.push(data[1].data.children[i]);
+		       	$("#comments").append("<div class='comment'>" + data[1].data.children[i].data.body + "</div>");
+		       }
+		    }
+		);
+	}
+
+	
+
+	$(document).ready(function(){	
+		getArticleIds(url);
+		// getComments("21m4hj");
+	});
+	
+	</script>
+</html>
