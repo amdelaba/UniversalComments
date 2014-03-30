@@ -72,11 +72,8 @@ function getRedditComments(id){
 
 
 								'</div>';
-								//MMA/comments/21h284/posting_shitty_things_you_made_is_how_cake_day/cgcyg2f
-								http://www.reddit.com/news/comments/t3_21m4hj
-			//"<div class='comment'>" + comment.data.body + "</div>"
+								
 	       	$("#comments").append(commentHtml);
-	       	$("#url").val("TEEEST");
 
 	       }
 	    }
@@ -93,6 +90,19 @@ function toDateTime(secs)
 
 
 $(document).ready(function(){	
+	chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
+	   function(tabs){
+	      try {
+	      	// alert('ya');
+	      	getRedditArticleIds(tabs[0].url);	
+	      }
+	      catch (err) {
+	      	$("#comments").append("<div>Sorry, unable to find any comments!</div>");
+	      }
+	      
+	   }
+	);
+
 	$("#getComments").click(function(){
 		$("#comments").html("");
 		url = $("#url").val();
