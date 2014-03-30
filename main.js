@@ -78,7 +78,7 @@ function getRedditComments(id){
 								'</div>';
 								
 	       	$("#comments").append(commentHtml);
-	       	$("#sorry").remove();
+	       	$(".sorry").remove();
 
 	       }
 	    }
@@ -100,7 +100,7 @@ $(document).ready(function(){
     // chrome.tabs.create({ url: newURL });
 	setTimeout(function(){
 		if (comments.length == 0){
-			$("#comments").append('<div style="color:white;">There are no comments available!</div>');
+			$("#comments").append('<div id="sorry" class="sorry">Sorry, unable to find any comments!</div>');
 		}
 	},1000)
 
@@ -136,7 +136,7 @@ $(document).ready(function(){
 		      	getRedditArticleIds(tabs[0].url);	
 		      }
 		      catch (err) {
-		      	$("#comments").append("<div id='sorry'>Sorry, unable to find any comments!</div>");
+		      	// $("#comments").append('<div id="sorry" class="sorry">Sorry, unable to find any comments!</div>');
 		      }
 		   }
 		);
