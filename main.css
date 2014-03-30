@@ -11,6 +11,10 @@ h1{
 	margin:10px 0 10px 0;
 }
 
+#getComments{
+	margin-bottom:10px;
+}
+
 #comments .comment:nth-of-type(odd){
 	background-color:#33c1c9;
 }
@@ -39,4 +43,9 @@ h1{
 @font-face {
 	font-family: Simplfica;
 	src: url("SIMPLIFICA Typeface.ttf") format("truetype");
+}
+
+.badge {
+	background-color: red;
+	margin-right:10px;
 }
