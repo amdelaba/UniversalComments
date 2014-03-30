@@ -90,24 +90,48 @@ function toDateTime(secs)
 
 
 $(document).ready(function(){	
-	chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
-	   function(tabs){
-	      try {
-	      	// alert('ya');
-	      	getRedditArticleIds(tabs[0].url);	
-	      }
-	      catch (err) {
-	      	$("#comments").append("<div>Sorry, unable to find any comments!</div>");
-	      }
-	      
-	   }
-	);
+	
+    // var newURL = "http://www.youtube.com/watch?v=oHg5SJYRHA0";
+    // chrome.tabs.create({ url: newURL });
+	
 
-	$("#getComments").click(function(){
+	if ($(window).width() > 500){
+		var webHtml = '<div class="row">' + 
+		  '<div class="col-md-2"></div>' + 
+		  '<div class="col-md-8" style="text-align:center;">' + 
+		  	'<h1>Universal Comment Viewer</h1>' + 
+		  '</div>' + 
+		  '<div class="col-md-2"></div>' + 
+		'</div>' + 
+		'<div class="row">' + 
+		  '<div class="col-md-4"></div>' + 
+		  '<div class="col-md-4" style="text-align:center;">' + 
+		  	'<input id="url" type="text" class="form-control" placeholder="Enter URL" value="http://www.teslamotors.com/blog/tesla-adds-titanium-underbody-shield-and-aluminum-deflector-plates-model-s">' + 
+			'<button id="getComments" type="button" class="btn btn-primary btn-block">Get Comments</button>' + 
+		  '</div>' + 
+		  '<div class="col-md-4"></div>' + 
+		'</div>'
+		$(".container").prepend(webHtml);
+
+		$("#getComments").click(function(){
 		$("#comments").html("");
 		url = $("#url").val();
 		getRedditArticleIds(url);
 	})
+
+
+	} else {
+		chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
+		   function(tabs){
+		      try {
+		      	getRedditArticleIds(tabs[0].url);	
+		      }
+		      catch (err) {
+		      	$("#comments").append("<div>Sorry, unable to find any comments!</div>");
+		      }
+		   }
+		);
+	}
 });
 
 
