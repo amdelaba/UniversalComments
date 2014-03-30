@@ -100,7 +100,7 @@ $(document).ready(function(){
     // chrome.tabs.create({ url: newURL });
 	setTimeout(function(){
 		if (comments.length == 0){
-			$("#comments").append('<div id="sorry" class="sorry">Sorry, unable to find any comments!</div>');
+			$("#comments").append('<div id="sorry" class="sorry"><img src="icons/warning.svg" width="100">Sorry, unable to find any comments!</div>');
 		}
 	},1000)
 
