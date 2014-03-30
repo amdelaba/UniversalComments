@@ -3,6 +3,7 @@ var comments = [];
 var articleIds = [];
 
 function getRedditArticleIds(url){
+	
 	$.get(
 	    "http://www.reddit.com/submit.json?url=" + url,
 	    {},
@@ -27,7 +28,10 @@ function getRedditArticleIds(url){
 	    	}
 
 	    }
-	);
+	)
+	
+	
+	
 }
 
 function isGoodArticle(article){
@@ -74,6 +78,7 @@ function getRedditComments(id){
 								'</div>';
 								
 	       	$("#comments").append(commentHtml);
+	       	$("#sorry").remove();
 
 	       }
 	    }
@@ -93,7 +98,11 @@ $(document).ready(function(){
 	
     // var newURL = "http://www.youtube.com/watch?v=oHg5SJYRHA0";
     // chrome.tabs.create({ url: newURL });
-	
+	setTimeout(function(){
+		if (comments.length == 0){
+			$("#comments").append('<div style="color:white;">There are no comments available!</div>');
+		}
+	},1000)
 
 	if ($(window).width() > 500){
 		var webHtml = '<div class="row">' + 
@@ -127,7 +136,7 @@ $(document).ready(function(){
 		      	getRedditArticleIds(tabs[0].url);	
 		      }
 		      catch (err) {
-		      	$("#comments").append("<div>Sorry, unable to find any comments!</div>");
+		      	$("#comments").append("<div id='sorry'>Sorry, unable to find any comments!</div>");
 		      }
 		   }
 		);
